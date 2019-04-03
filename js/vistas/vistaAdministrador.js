@@ -18,12 +18,16 @@ VistaAdministrador.prototype = {
   //lista
   inicializar: function() {
     //llamar a los metodos para reconstruir la lista, configurar botones y validar formularios
+    this.reconstruirLista();
+    this.configuracionDeBotones();
     validacionDeFormulario();
   },
 
   construirElementoPregunta: function(pregunta){
     var contexto = this;
     var nuevoItem;
+    nuevoItem = $("<li>", {
+      class: 'list-gorup-item', id: "pregunta.id", text: "pregunta.textoPregunta"}); //agregado ok
     //completar
     //asignar a nuevoitem un elemento li con clase "list-group-item", id "pregunta.id" y texto "pregunta.textoPregunta"
     var interiorItem = $('.d-flex');
@@ -53,9 +57,16 @@ VistaAdministrador.prototype = {
     e.botonAgregarPregunta.click(function() {
       var value = e.pregunta.val();
       var respuestas = [];
-
+      var cantVotos=0;
+      if (value==''){ // no se crea value está vacío
+        return}
       $('[name="option[]"]').each(function() {
         //completar
+        respuesta = $(this).val();
+      if (respuesta!=''){ // no agrega si respusta está vacío
+        respuestas.push({'textoRespuesta': respuesta, 'cantidad': cantVotos});
+       
+      }
       })
       contexto.limpiarFormulario();
       contexto.controlador.agregarPregunta(value, respuestas);
