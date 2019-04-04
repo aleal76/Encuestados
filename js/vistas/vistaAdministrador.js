@@ -11,6 +11,8 @@ var VistaAdministrador = function(modelo, controlador, elementos) {
   this.modelo.preguntaAgregada.suscribir(function() {
     contexto.reconstruirLista();
   });
+  this.modelo.preguntaEliminada.suscribir(function() { contexto.reconstruirLista(); });
+
 };
 
 
@@ -27,7 +29,7 @@ VistaAdministrador.prototype = {
     var contexto = this;
     var nuevoItem;
     nuevoItem = $("<li>", {
-      class: 'list-gorup-item', id: "pregunta.id", text: "pregunta.textoPregunta"}); //agregado ok
+      class: "list-group-item", id: pregunta.id, text: pregunta.textoPregunta}); //agregado ok
     //completar
     //asignar a nuevoitem un elemento li con clase "list-group-item", id "pregunta.id" y texto "pregunta.textoPregunta"
     var interiorItem = $('.d-flex');
@@ -64,14 +66,21 @@ VistaAdministrador.prototype = {
         //completar
         respuesta = $(this).val();
       if (respuesta!=''){ // no agrega si respusta está vacío
-        respuestas.push({'textoRespuesta': respuesta, 'cantidad': cantVotos});
-       
+        respuestas.push({'textoRespuesta': respuesta, 'cantidad': cantVotos});       
       }
       })
       contexto.limpiarFormulario();
       contexto.controlador.agregarPregunta(value, respuestas);
     });
-    //asociar el resto de los botones a eventos
+    //boton borrarPregunta 
+    e.botonBorrarPregunta.click(function() {
+      var id = parseInt($(".list-group-item.active").attr("id"));
+      console.log("en vista",id);
+      contexto.controlador.borrarPregunta(id);      
+      contexto.limpiarFormulario();
+    });
+
+
   },
 
   limpiarFormulario: function(){
