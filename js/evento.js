@@ -13,4 +13,4 @@ Evento.prototype = {
       this.observadores[i](this.sujeto);
     }
   }
-};
+}
