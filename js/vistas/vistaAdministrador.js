@@ -80,6 +80,12 @@ VistaAdministrador.prototype = {
       contexto.limpiarFormulario();
     });
 
+    e.borrarTodo.click(function() {
+      console.log("en vista");
+      contexto.controlador.borrarTodo();      
+      contexto.limpiarFormulario();
+    });
+
 
   },
 

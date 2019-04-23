@@ -8,6 +8,7 @@ var Modelo = function () {
   //inicializacion de eventos
   this.preguntaAgregada = new Evento(this);
   this.preguntaEliminada = new Evento(this);
+  this.preguntasBorradas = new Evento(this); //ultimo agregado
 };
 
 Modelo.prototype = {
@@ -54,8 +55,21 @@ Modelo.prototype = {
     return;
   },
 
+  borrarTodo: function () {
+    console.log("en borrartodo modelo");
+    if (this.preguntas.length>0) {
+      console.log("borrando");
+      this.preguntas.splice(0,(this.preguntas.length));
+      this.guardar();
+      this.preguntaEliminada.notificar();
+    }
+    return;
+  },
 
   //se guardan las preguntas
   guardar: function () {
   },
 };
+
+
+// agregar respuesta, eliminar pregunta, sumarle 1 al voto de una respuesta, editar una pregunta, borrar todas las preguntas
