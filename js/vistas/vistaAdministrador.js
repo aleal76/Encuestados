@@ -27,7 +27,7 @@ VistaAdministrador.prototype = {
     {
       this.controlador.traer();
     }
-   this.reconstruirLista();
+    this.reconstruirLista();
     this.configuracionDeBotones();
     validacionDeFormulario();
   },

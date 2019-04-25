@@ -65,7 +65,8 @@ Modelo.prototype = {
     }
     return;
   },
-   //se guardan las preguntas en localStorage
+ 
+  //se guardan las preguntas en localStorage
   guardar: function () {
     localStorage.setItem("preguntasGuardadas", JSON.stringify(this.preguntas));
   },
@@ -73,6 +74,18 @@ Modelo.prototype = {
   traer: function () {
   this.preguntas= JSON.parse(localStorage.getItem("preguntasGuardadas"));
 },
+//agregar voto
+agregarVoto: function (nombre, respuestas) {
+  var id = this.obtenerUltimoId();
+  id++;
+  var nuevaPregunta = { 'textoPregunta': nombre, 'id': id, 'cantidadPorRespuesta': respuestas };
+  this.preguntas.push(nuevaPregunta);
+  this.guardar();
+  this.preguntaAgregada.notificar();
+},
+
+
+
 
 };
 

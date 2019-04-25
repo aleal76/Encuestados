@@ -26,8 +26,10 @@ VistaUsuario.prototype = {
     this.reconstruirLista();
     var elementos = this.elementos;
     var contexto = this;
-    contexto.controlador.traer();// hace que modelo lea del localstorage
+    console.log("inicializando vistau elementos",elementos);
+    contexto.controlador.traer();// hace que modelo lea del
     elementos.botonAgregar.click(function () {
+      console.log("pregunta a responder",id);
       contexto.agregarVotos();
     });
 
