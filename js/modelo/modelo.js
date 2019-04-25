@@ -54,7 +54,7 @@ Modelo.prototype = {
     }
     return;
   },
-
+// BORRA TODOS
   borrarTodo: function () {
     console.log("en borrartodo modelo");
     if (this.preguntas.length>0) {
@@ -65,10 +65,15 @@ Modelo.prototype = {
     }
     return;
   },
-
-  //se guardan las preguntas
+   //se guardan las preguntas en localStorage
   guardar: function () {
+    localStorage.setItem("preguntasGuardadas", JSON.stringify(this.preguntas));
   },
+//recupera las preguntas del localStorage
+  traer: function () {
+  this.preguntas= JSON.parse(localStorage.getItem("preguntasGuardadas"));
+},
+
 };
 
 

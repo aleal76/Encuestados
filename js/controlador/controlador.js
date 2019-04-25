@@ -15,8 +15,16 @@ Controlador.prototype = {
     
   },
   borrarTodo: function () {
-    console.log("encontrolador");
+    console.log("encontroladorborrartodo");
     this.modelo.borrarTodo();
     
   },
+  traer: function () {  //recupera preguntas del local storage 
+    console.log("encontroladortraer");
+    this.modelo.traer();
+    
+  },
+
+
+
 };
