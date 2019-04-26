@@ -22,7 +22,7 @@ var VistaUsuario = function (modelo, controlador, elementos) {
 VistaUsuario.prototype = {
   //muestra la lista por pantalla y agrega el manejo del boton agregar
   inicializar: function () {
-    
+    this.modelo.traer();
     this.reconstruirLista();
     var elementos = this.elementos;
     var contexto = this;
@@ -40,8 +40,8 @@ VistaUsuario.prototype = {
   reconstruirGrafico: function () {
     var contexto = this;
     //obtiene las preguntas del local storage
-    var preguntas = JSON.parse(localStorage.getItem("preguntasGuardadas"));
-    //var preguntas = this.modelo.preguntas;
+    this.modelo.traer();
+    var preguntas = this.modelo.preguntas;
     preguntas.forEach(function (clave) {
       var listaParaGrafico = [[clave.textoPregunta, 'Cantidad']];
       var respuestas = clave.cantidadPorRespuesta;
@@ -57,9 +57,10 @@ VistaUsuario.prototype = {
     var listaPreguntas = this.elementos.listaPreguntas;
     listaPreguntas.html('');
     var contexto = this;
+    this.modelo.traer();
+    console.log("this.modelo.preguntas");
     var preguntas = this.modelo.preguntas;
-    var preguntas = JSON.parse(localStorage.getItem("preguntasGuardadas"));
-    console.log("aqui dentro de reconst lista en vistausuario",preguntas[0]);
+      
     preguntas.forEach(function (clave) {
       nuevoItem = $("<div>", {
         value: clave.textoPregunta, id: clave.id, text: clave.textoPregunta

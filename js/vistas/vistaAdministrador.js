@@ -23,10 +23,7 @@ VistaAdministrador.prototype = {
   inicializar: function() {
     //llamar a los metodos para reconstruir la lista, configurar botones y validar formularios
     //this.controlador.traer(); //actualiza la preguntas 
-    if(this.modelo.preguntas.length==0) //trae preguntas solo si está vacío
-    {
-      this.controlador.traer();
-    }
+    this.controlador.traer();
     this.reconstruirLista();
     this.configuracionDeBotones();
     validacionDeFormulario();
@@ -52,7 +49,8 @@ VistaAdministrador.prototype = {
   reconstruirLista: function() {
     var lista = this.elementos.lista;
     lista.html('');
-    var preguntas = this.modelo.preguntas;
+    this.modelo.traer();
+    preguntas=this.modelo.preguntas;
     
     for (var i=0;i<preguntas.length;++i){
       lista.append(this.construirElementoPregunta(preguntas[i]));

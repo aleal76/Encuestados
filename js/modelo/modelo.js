@@ -41,11 +41,8 @@ Modelo.prototype = {
   borrarPregunta: function (id) {
     console.log("en borrar", id);
     if (!isNaN(id)) {
-      var idABorrar = this.preguntas.find(function (element) {
-        if (element.id == id) {
-          console.log("debugiando id en find",element.id);
-          return (element.id); 
-        }
+      var idABorrar = this.preguntas.findIndex(function (element) {
+        return (element.id==id);
       });
       console.log("borrando",idABorrar);
       this.preguntas.splice(idABorrar, 1);
@@ -72,10 +69,14 @@ Modelo.prototype = {
   },
 //recupera las preguntas del localStorage
   traer: function () {
-  this.preguntas= JSON.parse(localStorage.getItem("preguntasGuardadas"));
+  if(this.preguntas.length==0  && localStorage.getItem("preguntasGuardadas")!=null) //trae preguntas solo si está vacío y el LS tiene data
+    {
+      console.log("cargando datos de ls");
+      this.preguntas=JSON.parse(localStorage.getItem("preguntasGuardadas"))
+    }
 },
 //agregar voto
-agregarVoto: function (nombre, respuestas) {
+agregarVotos: function (nombre, respuestas) {
   var id = this.obtenerUltimoId();
   id++;
   var nuevaPregunta = { 'textoPregunta': nombre, 'id': id, 'cantidadPorRespuesta': respuestas };

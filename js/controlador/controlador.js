@@ -10,7 +10,7 @@ Controlador.prototype = {
     this.modelo.agregarPregunta(pregunta, respuestas);
   },
   borrarPregunta: function (id) {
-    console.log("encontrolador",id);
+    console.log("encontroladorborrapregunta",id);
     this.modelo.borrarPregunta(id);
   },
   borrarTodo: function () {
@@ -21,7 +21,7 @@ Controlador.prototype = {
     console.log("encontroladortraer");
     this.modelo.traer();
   },
-  agregarVoto: function () {  //agregavoto a una pregunta
+  agregarVotos: function () {  //agregavoto a una pregunta
     console.log("encontroladoragregavoto");
     this.modelo.agregarVoto();
   },
