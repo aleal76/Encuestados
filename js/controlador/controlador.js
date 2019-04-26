@@ -25,6 +25,8 @@ Controlador.prototype = {
     console.log("encontroladoragregavoto");
     this.modelo.agregarVoto();
   },
-
+  editarPregunta: function (id,nuevaPregunta) {  //modifica pregunta id
+    this.modelo.editarPregunta(id,nuevaPregunta);
+  },
 
 };

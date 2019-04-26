@@ -9,6 +9,7 @@ var Modelo = function () {
   this.preguntaAgregada = new Evento(this);
   this.preguntaEliminada = new Evento(this);
   this.preguntasBorradas = new Evento(this); //ultimo agregado
+  this.preguntaEditada = new Evento(this);
 };
 
 Modelo.prototype = {
@@ -42,53 +43,60 @@ Modelo.prototype = {
     console.log("en borrar", id);
     if (!isNaN(id)) {
       var idABorrar = this.preguntas.findIndex(function (element) {
-        return (element.id==id);
+        return (element.id == id);
       });
-      console.log("borrando",idABorrar);
+      console.log("borrando", idABorrar);
       this.preguntas.splice(idABorrar, 1);
       this.guardar();
       this.preguntaEliminada.notificar();
     }
     return;
   },
-// BORRA TODOS
+  // BORRA TODOS
   borrarTodo: function () {
     console.log("en borrartodo modelo");
-    if (this.preguntas.length>0) {
+    if (this.preguntas.length > 0) {
       console.log("borrando");
-      this.preguntas.splice(0,(this.preguntas.length));
+      this.preguntas.splice(0, (this.preguntas.length));
       this.guardar();
       this.preguntaEliminada.notificar();
     }
     return;
   },
- 
+
   //se guardan las preguntas en localStorage
   guardar: function () {
     localStorage.setItem("preguntasGuardadas", JSON.stringify(this.preguntas));
   },
-//recupera las preguntas del localStorage
+  //recupera las preguntas del localStorage
   traer: function () {
-  if(this.preguntas.length==0  && localStorage.getItem("preguntasGuardadas")!=null) //trae preguntas solo si está vacío y el LS tiene data
+    if (this.preguntas.length == 0 && localStorage.getItem("preguntasGuardadas") != null) //trae preguntas solo si está vacío y el LS tiene data
     {
       console.log("cargando datos de ls");
-      this.preguntas=JSON.parse(localStorage.getItem("preguntasGuardadas"))
+      this.preguntas = JSON.parse(localStorage.getItem("preguntasGuardadas"))
     }
-},
-//agregar voto
-agregarVotos: function (nombre, respuestas) {
-  var id = this.obtenerUltimoId();
-  id++;
-  var nuevaPregunta = { 'textoPregunta': nombre, 'id': id, 'cantidadPorRespuesta': respuestas };
-  this.preguntas.push(nuevaPregunta);
-  this.guardar();
-  this.preguntaAgregada.notificar();
-},
+  },
+  //agregar voto
+  agregarVotos: function (idpregunta) {
+    var nuevaPregunta = { 'textoPregunta': nombre, 'id': id, 'cantidadPorRespuesta': respuestas };
+    this.preguntas.push(nuevaPregunta);
+    this.guardar();
+    this.preguntaAgregada.notificar();
+  },
 
+  editarPregunta: function (idPregunta,nuevaPregunta) {
+    //var nuevaPregunta = { 'textoPregunta': nuevaPregunta, 'id': id, 'cantidadPorRespuesta': respuestas };
+    if (!isNaN(idPregunta)) {
+      var idAEditar = this.preguntas.findIndex(function (element) {
+        return (element.id == idPregunta);
+      });
 
+    this.preguntas[idAEditar].textoPregunta = nuevaPregunta;
+    this.guardar();
+    this.preguntaEditada.notificar();
+  }}
 
-
-};
+  }
 
 
 // agregar respuesta, eliminar pregunta, sumarle 1 al voto de una respuesta, editar una pregunta, borrar todas las preguntas
