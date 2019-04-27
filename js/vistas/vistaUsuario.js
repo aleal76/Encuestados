@@ -8,31 +8,33 @@ var VistaUsuario = function (modelo, controlador, elementos) {
   var contexto = this;
 
   //suscripcion a eventos del modelo
-  this.modelo.preguntaAgregada.suscribir(function () {
+  this.modelo.preguntaAgregada.suscribir(function () { 
     contexto.reconstruirLista();
+    contexto.reconstruirGrafico(); // también se usa para resp. agregada
   });
   this.modelo.preguntaEliminada.suscribir(function () { //agregada aa
     contexto.reconstruirLista();
+    contexto.reconstruirGrafico();
   });
   this.modelo.preguntasBorradas.suscribir(function () { //agregada aa
     contexto.reconstruirLista();
+    contexto.reconstruirGrafico();
   });
   this.modelo.preguntaEditada.suscribir(function () { //agregada aa
     contexto.reconstruirLista();
+    contexto.reconstruirGrafico();
   });
 };
 
 VistaUsuario.prototype = {
   //muestra la lista por pantalla y agrega el manejo del boton agregar
   inicializar: function () {
-    this.modelo.traer();
-    this.reconstruirLista();
+    console.log("inicializando vu");
     var elementos = this.elementos;
     var contexto = this;
-    console.log("inicializando vistau elementos",elementos);
     contexto.controlador.traer();// hace que modelo lea del
+    this.reconstruirLista();
     elementos.botonAgregar.click(function () {
-      console.log("pregunta a responder",id);
       contexto.agregarVotos();
     });
 
@@ -42,8 +44,6 @@ VistaUsuario.prototype = {
   //reconstruccion de los graficos de torta
   reconstruirGrafico: function () {
     var contexto = this;
-    //obtiene las preguntas del local storage
-    this.modelo.traer();
     var preguntas = this.modelo.preguntas;
     preguntas.forEach(function (clave) {
       var listaParaGrafico = [[clave.textoPregunta, 'Cantidad']];
@@ -60,7 +60,6 @@ VistaUsuario.prototype = {
     var listaPreguntas = this.elementos.listaPreguntas;
     listaPreguntas.html('');
     var contexto = this;
-    this.modelo.traer(); //actualiza preguntas 
     var preguntas = this.modelo.preguntas;
     preguntas.forEach(function (clave) {
       nuevoItem = $("<div>", {
@@ -86,17 +85,21 @@ VistaUsuario.prototype = {
       }));
     });
   },
-
   agregarVotos: function () {
     var contexto = this;
     $('#preguntas').find('div').each(function () {
       var nombrePregunta = $(this).attr('value');
       var id = $(this).attr('id');
       var respuestaSeleccionada = $('input[name=' + id + ']:checked').val();
-      $('input[name=' + id + ']').prop('checked', false);
-      contexto.controlador.agregarVoto(nombrePregunta, respuestaSeleccionada);
+     //$('input[name=' + id + ']').prop('checked', false); ya se lmpia con la reconstrucción
+      if (respuestaSeleccionada != undefined) {
+        contexto.controlador.agregarVoto(nombrePregunta, respuestaSeleccionada)
+      };
     });
+    this.reconstruirLista();//inicializo para que se actualice todo
+    this.reconstruirGrafico();
   },
+
 
   dibujarGrafico: function (nombre, respuestas) {
     var seVotoAlgunaVez = false;

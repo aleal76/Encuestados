@@ -10,20 +10,16 @@ Controlador.prototype = {
     this.modelo.agregarPregunta(pregunta, respuestas);
   },
   borrarPregunta: function (id) {
-    console.log("encontroladorborrapregunta",id);
-    this.modelo.borrarPregunta(id);
+     this.modelo.borrarPregunta(id);
   },
   borrarTodo: function () {
-    console.log("encontrolador");
-    this.modelo.borrarTodo();
+     this.modelo.borrarTodo();
   },
   traer: function () {  //recupera preguntas del local storage 
-    console.log("encontroladortraer");
-    this.modelo.traer();
+     this.modelo.traer();
   },
-  agregarVotos: function () {  //agregavoto a una pregunta
-    console.log("encontroladoragregavoto");
-    this.modelo.agregarVoto();
+  agregarVoto: function (nombrePregunta, respuestaSeleccionada) {  //agregavoto a una pregunta
+    this.modelo.agregarVoto(nombrePregunta, respuestaSeleccionada);
   },
   editarPregunta: function (id,nuevaPregunta) {  //modifica pregunta id
     this.modelo.editarPregunta(id,nuevaPregunta);
