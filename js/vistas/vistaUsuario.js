@@ -8,7 +8,7 @@ var VistaUsuario = function (modelo, controlador, elementos) {
   var contexto = this;
 
   //suscripcion a eventos del modelo
-  this.modelo.preguntaAgregada.suscribir(function () { 
+  this.modelo.preguntaAgregada.suscribir(function () {
     contexto.reconstruirLista();
     contexto.reconstruirGrafico(); // también se usa para resp. agregada
   });
@@ -29,15 +29,13 @@ var VistaUsuario = function (modelo, controlador, elementos) {
 VistaUsuario.prototype = {
   //muestra la lista por pantalla y agrega el manejo del boton agregar
   inicializar: function () {
-    console.log("inicializando vu");
     var elementos = this.elementos;
     var contexto = this;
-    contexto.controlador.traer();// hace que modelo lea del
-    this.reconstruirLista();
+    contexto.controlador.traer();// toma últimos datos del modelo/ls
     elementos.botonAgregar.click(function () {
       contexto.agregarVotos();
     });
-
+    this.reconstruirLista();
     this.reconstruirGrafico();
   },
 
@@ -64,7 +62,7 @@ VistaUsuario.prototype = {
     preguntas.forEach(function (clave) {
       nuevoItem = $("<div>", {
         value: clave.textoPregunta, id: clave.id, text: clave.textoPregunta
-      }); //
+      }); 
       listaPreguntas.append(nuevoItem);
       var respuestas = clave.cantidadPorRespuesta;
       contexto.mostrarRespuestas(listaPreguntas, respuestas, clave);
@@ -85,18 +83,19 @@ VistaUsuario.prototype = {
       }));
     });
   },
+
   agregarVotos: function () {
     var contexto = this;
     $('#preguntas').find('div').each(function () {
       var nombrePregunta = $(this).attr('value');
       var id = $(this).attr('id');
       var respuestaSeleccionada = $('input[name=' + id + ']:checked').val();
-     //$('input[name=' + id + ']').prop('checked', false); ya se lmpia con la reconstrucción
+      $('input[name=' + id + ']').prop('checked', false); 
       if (respuestaSeleccionada != undefined) {
         contexto.controlador.agregarVoto(nombrePregunta, respuestaSeleccionada)
       };
     });
-    this.reconstruirLista();//inicializo para que se actualice todo
+    
     this.reconstruirGrafico();
   },
 

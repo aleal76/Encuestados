@@ -27,7 +27,6 @@ var VistaAdministrador = function (modelo, controlador, elementos) {
 VistaAdministrador.prototype = {
   //lista
   inicializar: function () {
-    console.log("inicializando vadmin");
     this.controlador.traer();
     this.reconstruirLista();
     this.configuracionDeBotones();
@@ -71,17 +70,16 @@ VistaAdministrador.prototype = {
     e.botonAgregarPregunta.click(function () {
       var value = e.pregunta.val();
       var respuestas = [];
-      var cantVotos = 0;
-      if (value == '') { // no se crea value está vacío
-        return
+      if (value == '' || $('[name="option[]"]').val() == '') {
+        return; // valida pregunta y respesta 
       }
       $('[name="option[]"]').each(function () {
-        //completar
         respuesta = $(this).val();
-        if (respuesta != '') { // no agrega si respusta está vacío
-          respuestas.push({ 'textoRespuesta': respuesta, 'cantidad': cantVotos });
+        nuevaRespuesta = { 'textoRespuesta': respuesta, 'cantidad': 0 };
+        if (nuevaRespuesta.textoRespuesta != '') {
+          respuestas.push(nuevaRespuesta);
         }
-      })
+      });
       contexto.limpiarFormulario();
       contexto.controlador.agregarPregunta(value, respuestas);
     });
@@ -93,19 +91,23 @@ VistaAdministrador.prototype = {
     });
 
     e.borrarTodo.click(function () {
-       contexto.controlador.borrarTodo();
+      contexto.controlador.borrarTodo();
       contexto.limpiarFormulario();
     });
 
     e.botonEditarPregunta.click(function () {
       var id = parseInt($(".list-group-item.active").attr("id"));
-       if (id>-1) {
+      if (id > -1) {
         var nuevaPregunta = prompt("Ingrese el nuevo texto de la pregunta");
-        contexto.controlador.editarPregunta(id, nuevaPregunta);
-        contexto.limpiarFormulario();
+        if (nuevaPregunta != '') {
+          contexto.controlador.editarPregunta(id, nuevaPregunta);
+          contexto.limpiarFormulario();
+        }
+        else {
+          alert("Ingrese una pregunta válida");
+        }
       }
     });
-
   },
 
   limpiarFormulario: function () {
